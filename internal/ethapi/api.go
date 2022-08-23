@@ -1849,7 +1849,7 @@ func (s *TransactionAPI) Resend(ctx context.Context, sendArgs TransactionArgs, g
 		return common.Hash{}, err
 	}
 	// Iterate the pending list for replacement
-	pending, err := s.b.GetPoolTransactions()
+	pending, err := s.b.GetPoolQueuedTransactions()
 	if err != nil {
 		return common.Hash{}, err
 	}
