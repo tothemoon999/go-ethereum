@@ -566,9 +566,7 @@ func (pool *TxPool) Queued(enforceTips bool) map[common.Address]types.Transactio
 
 	queue := make(map[common.Address]types.Transactions)
 	for addr, list := range pool.queue {
-		for _, v := range list {
-			fmt.Println(v)
-		}
+		
 		txs := list.Flatten()
 
 		// If the miner requests tip enforcement, cap the lists now
