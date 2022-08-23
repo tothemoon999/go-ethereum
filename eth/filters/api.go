@@ -477,11 +477,7 @@ func (api *FilterAPI) GetFilterChanges(id rpc.ID) (interface{}, error) {
 		f.deadline.Reset(api.timeout)
 
 		switch f.typ {
-		case PendingTransactionsSubscription, BlocksSubscription:
-			hashes := f.hashes
-			f.hashes = nil
-			return returnHashes(hashes), nil
-		case QueuedTransactionsSubscription, BlocksSubscription:
+		case PendingTransactionsSubscription, BlocksSubscription, QueuedTransactionSubscription:
 			hashes := f.hashes
 			f.hashes = nil
 			return returnHashes(hashes), nil
