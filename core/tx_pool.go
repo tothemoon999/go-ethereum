@@ -373,6 +373,8 @@ func (pool *TxPool) loop() {
 			pool.mu.RUnlock()
 			stales := int(atomic.LoadInt64(&pool.priced.stales))
 
+			fmt.Println(pending, queued)
+
 			if pending != prevPending || queued != prevQueued || stales != prevStales {
 				log.Debug("Transaction pool status report", "executable", pending, "queued", queued, "stales", stales)
 				prevPending, prevQueued, prevStales = pending, queued, stales
