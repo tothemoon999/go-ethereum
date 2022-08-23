@@ -200,6 +200,10 @@ func (b *LesApiBackend) GetPoolTransactions() (types.Transactions, error) {
 	return b.eth.txPool.GetTransactions()
 }
 
+func (b *LesApiBackend) GetPoolQueuedTransactions() (types.Transactions, error) {
+	return b.eth.txPool.GetTransactions()
+}
+
 func (b *LesApiBackend) GetPoolTransaction(txHash common.Hash) *types.Transaction {
 	return b.eth.txPool.GetTransaction(txHash)
 }
