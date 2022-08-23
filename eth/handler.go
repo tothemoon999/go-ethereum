@@ -69,6 +69,8 @@ type txPool interface {
 	// The slice should be modifiable by the caller.
 	Pending(enforceTips bool) map[common.Address]types.Transactions
 
+	Queued(enforceTips bool) map[common.Address]types.Transactions
+
 	// SubscribeNewTxsEvent should return an event subscription of
 	// NewTxsEvent and send events to the given channel.
 	SubscribeNewTxsEvent(chan<- core.NewTxsEvent) event.Subscription
