@@ -730,6 +730,10 @@ type pendStats struct {
 	Pending int `json:"pending"`
 }
 
+type queueStats struct {
+	Queued int `json:"queued"`
+}
+
 // reportPending retrieves the current number of pending transactions and reports
 // it to the stats server.
 func (s *Service) reportPending(conn *connWrapper) error {
@@ -744,8 +748,27 @@ func (s *Service) reportPending(conn *connWrapper) error {
 			Pending: pending,
 		},
 	}
+	fmt.Println(stats)
 	report := map[string][]interface{}{
 		"emit": {"pending", stats},
+	}
+	return conn.WriteJSON(report)
+}
+
+func (s *Service) reportQueued(conn *connWrapper) error {
+	// Retrieve the queued count from the local blockchain
+	_, queued := s.backend.Stats()
+	// Assemble the transaction stats and send it to the server
+	log.Trace("Sending queued transactions to ethstats", "count", queued)
+
+	stats := map[string]interface{}{
+		"id": s.node,
+		"stats": &queueStats{
+			Queued: queued,
+		},
+	}
+	report := map[string][]interface{}{
+		"emit": {"queued", stats},
 	}
 	return conn.WriteJSON(report)
 }
