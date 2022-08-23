@@ -414,6 +414,7 @@ func toFilterArg(q ethereum.FilterQuery) (interface{}, error) {
 func (ec *Client) PendingBalanceAt(ctx context.Context, account common.Address) (*big.Int, error) {
 	var result hexutil.Big
 	err := ec.c.CallContext(ctx, &result, "eth_getBalance", account, "pending")
+	// fmt.Println(result)
 	return (*big.Int)(&result), err
 }
 
@@ -421,6 +422,7 @@ func (ec *Client) PendingBalanceAt(ctx context.Context, account common.Address) 
 func (ec *Client) PendingStorageAt(ctx context.Context, account common.Address, key common.Hash) ([]byte, error) {
 	var result hexutil.Bytes
 	err := ec.c.CallContext(ctx, &result, "eth_getStorageAt", account, key, "pending")
+	fmt.Println(result)
 	return result, err
 }
 
@@ -428,6 +430,7 @@ func (ec *Client) PendingStorageAt(ctx context.Context, account common.Address, 
 func (ec *Client) PendingCodeAt(ctx context.Context, account common.Address) ([]byte, error) {
 	var result hexutil.Bytes
 	err := ec.c.CallContext(ctx, &result, "eth_getCode", account, "pending")
+	// fmt.Println(result)
 	return result, err
 }
 

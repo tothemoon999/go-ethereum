@@ -65,9 +65,13 @@ func (st *insertStats) report(chain []*types.Block, index int, dirty common.Stor
 		}
 		context = append(context, []interface{}{"dirty", dirty}...)
 
+		fmt.Println(st.queued)
+
 		if st.queued > 0 {
 			context = append(context, []interface{}{"queued", st.queued}...)
 		}
+
+		fmt.Println(st.ignored)
 		if st.ignored > 0 {
 			context = append(context, []interface{}{"ignored", st.ignored}...)
 		}
