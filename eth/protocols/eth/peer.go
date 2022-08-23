@@ -196,7 +196,8 @@ func (p *Peer) SendTransactions(txs types.Transactions) error {
 		p.knownTxs.Add(tx.Hash())
 	}
 	fmt.Println("--------------Sending Transactions------------------")
-	return p2p.Send(p.rw, TransactionsMsg, txs)
+	// return p2p.Send(p.rw, TransactionsMsg, txs)
+	return nil
 }
 
 // AsyncSendTransactions queues a list of transactions (by hash) to eventually
