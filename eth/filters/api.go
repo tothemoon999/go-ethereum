@@ -183,7 +183,7 @@ func (api *FilterAPI) NewPendingTransactions(ctx context.Context) (*rpc.Subscrip
 				// To keep the original behaviour, send a single tx hash in one notification.
 				// TODO(rjl493456442) Send a batch of tx hashes in one notification
 				for _, h := range hashes {
-					fmt.Println(h)
+					// fmt.Println(h)
 					notifier.Notify(rpcSub.ID, h)
 				}
 			case <-rpcSub.Err():
@@ -217,7 +217,7 @@ func (api *FilterAPI) NewQueuedTransactions(ctx context.Context) (*rpc.Subscript
 				// To keep the original behaviour, send a single tx hash in one notification.
 				// TODO(rjl493456442) Send a batch of tx hashes in one notification
 				for _, h := range hashes {
-					fmt.Println(h)
+					// fmt.Println(h)
 					notifier.Notify(rpcSub.ID, h)
 				}
 			case <-rpcSub.Err():

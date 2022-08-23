@@ -333,8 +333,14 @@ func (s *Service) loop(chainHeadCh chan core.ChainHeadEvent, txEventCh chan core
 					if err = s.reportPending(conn); err != nil {
 						log.Warn("Post-block transaction stats report failed", "err", err)
 					}
+					if err = s.reportQueued(conn); err != nil {
+						log.Warn("Post-block transaction stats report failed", "err", err)
+					}
 				case <-txCh:
 					if err = s.reportPending(conn); err != nil {
+						log.Warn("Transaction stats report failed", "err", err)
+					}
+					if err = s.reportQueued(conn); err != nil {
 						log.Warn("Transaction stats report failed", "err", err)
 					}
 				}
@@ -516,6 +522,9 @@ func (s *Service) report(conn *connWrapper) error {
 		return err
 	}
 	if err := s.reportPending(conn); err != nil {
+		return err
+	}
+	if err := s.reportQueued(conn); err != nil {
 		return err
 	}
 	if err := s.reportStats(conn); err != nil {

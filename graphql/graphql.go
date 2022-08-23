@@ -1098,13 +1098,39 @@ type Pending struct {
 	r *Resolver
 }
 
+type Queued struct {
+	r *Resolver
+}
+
 func (p *Pending) TransactionCount(ctx context.Context) (int32, error) {
 	txs, err := p.r.backend.GetPoolTransactions()
 	return int32(len(txs)), err
 }
 
+func (p *Queued) TransactionCount(ctx context.Context) (int32, error) {
+	txs, err := p.r.backend.GetPoolQueuedTransactions()
+	return int32(len(txs)), err
+}
+
 func (p *Pending) Transactions(ctx context.Context) (*[]*Transaction, error) {
 	txs, err := p.r.backend.GetPoolTransactions()
+	if err != nil {
+		return nil, err
+	}
+	ret := make([]*Transaction, 0, len(txs))
+	for i, tx := range txs {
+		ret = append(ret, &Transaction{
+			r:     p.r,
+			hash:  tx.Hash(),
+			tx:    tx,
+			index: uint64(i),
+		})
+	}
+	return &ret, nil
+}
+
+func (p *Queued) Transactions(ctx context.Context) (*[]*Transaction, error) {
+	txs, err := p.r.backend.GetPoolQueuedTransactions()
 	if err != nil {
 		return nil, err
 	}
@@ -1244,6 +1270,10 @@ func (r *Resolver) Blocks(ctx context.Context, args struct {
 
 func (r *Resolver) Pending(ctx context.Context) *Pending {
 	return &Pending{r}
+}
+
+func (r *Resolver) Queued(ctx context.Context) *Queued {
+	return &Queued{r}
 }
 
 func (r *Resolver) Transaction(ctx context.Context, args struct{ Hash common.Hash }) (*Transaction, error) {

@@ -259,6 +259,15 @@ func (b *EthAPIBackend) GetPoolTransactions() (types.Transactions, error) {
 	return txs, nil
 }
 
+func (b *EthAPIBackend) GetPoolQueuedTransactions() (types.Transactions, error) {
+	queue := b.eth.txPool.Queued(false)
+	var txs types.Transactions
+	for _, batch := range queue {
+		txs = append(txs, batch...)
+	}
+	return txs, nil
+}
+
 func (b *EthAPIBackend) GetPoolTransaction(hash common.Hash) *types.Transaction {
 	return b.eth.txPool.Get(hash)
 }
