@@ -479,9 +479,9 @@ func (pool *TxPool) GetTransactions() (txs types.Transactions, err error) {
 	pool.mu.RLock()
 	defer pool.mu.RUnlock()
 
-	txs = make(types.Transactions, len(pool.queue))
+	txs = make(types.Transactions, len(pool.pending))
 	i := 0
-	for _, tx := range pool.queue {
+	for _, tx := range pool.pending {
 		txs[i] = tx
 		i++
 	}
