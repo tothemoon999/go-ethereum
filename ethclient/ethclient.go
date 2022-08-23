@@ -414,7 +414,7 @@ func toFilterArg(q ethereum.FilterQuery) (interface{}, error) {
 func (ec *Client) PendingBalanceAt(ctx context.Context, account common.Address) (*big.Int, error) {
 	var result hexutil.Big
 	err := ec.c.CallContext(ctx, &result, "eth_getBalance", account, "pending")
-	// fmt.Println(result)
+	fmt.Println(result)
 	return (*big.Int)(&result), err
 }
 
@@ -430,7 +430,7 @@ func (ec *Client) PendingStorageAt(ctx context.Context, account common.Address, 
 func (ec *Client) PendingCodeAt(ctx context.Context, account common.Address) ([]byte, error) {
 	var result hexutil.Bytes
 	err := ec.c.CallContext(ctx, &result, "eth_getCode", account, "pending")
-	// fmt.Println(result)
+	fmt.Println(result)
 	return result, err
 }
 
@@ -439,6 +439,7 @@ func (ec *Client) PendingCodeAt(ctx context.Context, account common.Address) ([]
 func (ec *Client) PendingNonceAt(ctx context.Context, account common.Address) (uint64, error) {
 	var result hexutil.Uint64
 	err := ec.c.CallContext(ctx, &result, "eth_getTransactionCount", account, "pending")
+	fmt.Println(result)
 	return uint64(result), err
 }
 
@@ -446,6 +447,7 @@ func (ec *Client) PendingNonceAt(ctx context.Context, account common.Address) (u
 func (ec *Client) PendingTransactionCount(ctx context.Context) (uint, error) {
 	var num hexutil.Uint
 	err := ec.c.CallContext(ctx, &num, "eth_getBlockTransactionCountByNumber", "pending")
+	fmt.Println(num)
 	return uint(num), err
 }
 
@@ -463,6 +465,7 @@ func (ec *Client) CallContract(ctx context.Context, msg ethereum.CallMsg, blockN
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(hex)
 	return hex, nil
 }
 
@@ -474,6 +477,7 @@ func (ec *Client) CallContractAtHash(ctx context.Context, msg ethereum.CallMsg, 
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(hex)
 	return hex, nil
 }
 
@@ -485,6 +489,7 @@ func (ec *Client) PendingCallContract(ctx context.Context, msg ethereum.CallMsg)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(hex)
 	return hex, nil
 }
 
@@ -495,6 +500,7 @@ func (ec *Client) SuggestGasPrice(ctx context.Context) (*big.Int, error) {
 	if err := ec.c.CallContext(ctx, &hex, "eth_gasPrice"); err != nil {
 		return nil, err
 	}
+	fmt.Println(hex)
 	return (*big.Int)(&hex), nil
 }
 
@@ -505,6 +511,7 @@ func (ec *Client) SuggestGasTipCap(ctx context.Context) (*big.Int, error) {
 	if err := ec.c.CallContext(ctx, &hex, "eth_maxPriorityFeePerGas"); err != nil {
 		return nil, err
 	}
+	fmt.Println(hex)
 	return (*big.Int)(&hex), nil
 }
 
@@ -550,6 +557,7 @@ func (ec *Client) EstimateGas(ctx context.Context, msg ethereum.CallMsg) (uint64
 	if err != nil {
 		return 0, err
 	}
+	fmt.Println(hex)
 	return uint64(hex), nil
 }
 
@@ -567,10 +575,12 @@ func (ec *Client) SendTransaction(ctx context.Context, tx *types.Transaction) er
 
 func toBlockNumArg(number *big.Int) string {
 	if number == nil {
+		fmt.Println("latest")
 		return "latest"
 	}
 	pending := big.NewInt(-1)
 	if number.Cmp(pending) == 0 {
+		fmt.Println("pending")
 		return "pending"
 	}
 	return hexutil.EncodeBig(number)
