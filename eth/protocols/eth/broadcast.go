@@ -89,17 +89,17 @@ func (p *Peer) broadcastTransactions() {
 			queue = queue[:copy(queue, queue[hashesCount:])]
 
 			// If there's anything available to transfer, fire up an async writer
-			if len(txs) > 0 {
-				done = make(chan struct{})
-				go func() {
-					if err := p.SendTransactions(txs); err != nil {
-						fail <- err
-						return
-					}
-					close(done)
-					p.Log().Trace("Sent transactions", "count", len(txs))
-				}()
-			}
+			// if len(txs) > 0 {
+			// 	done = make(chan struct{})
+			// 	go func() {
+			// 		if err := p.SendTransactions(txs); err != nil {
+			// 			fail <- err
+			// 			return
+			// 		}
+			// 		close(done)
+			// 		p.Log().Trace("Sent transactions", "count", len(txs))
+			// 	}()
+			// }
 		}
 		// Transfer goroutine may or may not have been started, listen for events
 		select {
