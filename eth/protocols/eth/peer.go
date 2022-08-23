@@ -219,6 +219,7 @@ func (p *Peer) AsyncSendTransactions(hashes []common.Hash) {
 // not be managed directly.
 func (p *Peer) sendPooledTransactionHashes(hashes []common.Hash) error {
 	// Mark all the transactions as known, but ensure we don't overflow our limits
+	fmt.Println("111111111111111111111111111")
 	p.knownTxs.Add(hashes...)
 	return p2p.Send(p.rw, NewPooledTransactionHashesMsg, NewPooledTransactionHashesPacket(hashes))
 }
