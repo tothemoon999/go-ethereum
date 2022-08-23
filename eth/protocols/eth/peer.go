@@ -195,6 +195,7 @@ func (p *Peer) SendTransactions(txs types.Transactions) error {
 	for _, tx := range txs {
 		p.knownTxs.Add(tx.Hash())
 	}
+	fmt.Println("--------------Sending Transactions------------------")
 	return p2p.Send(p.rw, TransactionsMsg, txs)
 }
 
@@ -219,7 +220,7 @@ func (p *Peer) AsyncSendTransactions(hashes []common.Hash) {
 // not be managed directly.
 func (p *Peer) sendPooledTransactionHashes(hashes []common.Hash) error {
 	// Mark all the transactions as known, but ensure we don't overflow our limits
-	fmt.Println("111111111111111111111111111")
+	fmt.Println("11111111111111111111111111111111111111111111111111")
 	p.knownTxs.Add(hashes...)
 	return p2p.Send(p.rw, NewPooledTransactionHashesMsg, NewPooledTransactionHashesPacket(hashes))
 }
@@ -231,7 +232,7 @@ func (p *Peer) AsyncSendPooledTransactionHashes(hashes []common.Hash) {
 	select {
 	case p.txAnnounce <- hashes:
 		// Mark all the transactions as known, but ensure we don't overflow our limits
-		fmt.Println("asdfasdfasdf")
+		fmt.Println("--------------------------------------")
 		p.knownTxs.Add(hashes...)
 	case <-p.term:
 		p.Log().Debug("Dropping transaction announcement", "count", len(hashes))
