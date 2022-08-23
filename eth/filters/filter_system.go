@@ -127,6 +127,9 @@ const (
 	// PendingTransactionsSubscription queries tx hashes for pending
 	// transactions entering the pending state
 	PendingTransactionsSubscription
+	// QueuedTransactionsSubscription queries tx hashes for queued
+	// transactions entering the queued state
+	QueuedTransactionsSubscription
 	// BlocksSubscription queries hashes for blocks that are imported
 	BlocksSubscription
 	// LastSubscription keeps track of the last index
@@ -375,6 +378,20 @@ func (es *EventSystem) SubscribePendingTxs(hashes chan []common.Hash) *Subscript
 	sub := &subscription{
 		id:        rpc.NewID(),
 		typ:       PendingTransactionsSubscription,
+		created:   time.Now(),
+		logs:      make(chan []*types.Log),
+		hashes:    hashes,
+		headers:   make(chan *types.Header),
+		installed: make(chan struct{}),
+		err:       make(chan error),
+	}
+	return es.subscribe(sub)
+}
+
+func (es *EventSystem) SubscribeQueuedTxs(hashes chan []common.Hash) *Subscription {
+	sub := &subscription{
+		id:        rpc.NewID(),
+		typ:       QueuedTransactionsSubscription,
 		created:   time.Now(),
 		logs:      make(chan []*types.Log),
 		hashes:    hashes,
