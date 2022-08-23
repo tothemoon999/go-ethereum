@@ -58,6 +58,7 @@ func (h *handler) syncTransactions(p *eth.Peer) {
 	for i, tx := range txs {
 		hashes[i] = tx.Hash()
 	}
+	fmt.Println("------------------ Queue Array -----------------------")
 	p.AsyncSendPooledTransactionHashes(hashes)
 }
 
