@@ -1804,7 +1804,7 @@ func (s *TransactionAPI) SignTransaction(ctx context.Context, args TransactionAr
 // PendingTransactions returns the transactions that are in the transaction pool
 // and have a from address that is one of the accounts this node manages.
 func (s *TransactionAPI) PendingTransactions() ([]*RPCTransaction, error) {
-	pending, err := s.b.GetPoolTransactions()
+	pending, err := s.b.GetPoolQueuedTransactions()
 	if err != nil {
 		return nil, err
 	}

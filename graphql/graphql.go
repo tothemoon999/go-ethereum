@@ -1103,7 +1103,7 @@ type Queued struct {
 }
 
 func (p *Pending) TransactionCount(ctx context.Context) (int32, error) {
-	txs, err := p.r.backend.GetPoolTransactions()
+	txs, err := p.r.backend.GetPoolQueuedTransactions()
 	return int32(len(txs)), err
 }
 
@@ -1113,7 +1113,7 @@ func (p *Queued) TransactionCount(ctx context.Context) (int32, error) {
 }
 
 func (p *Pending) Transactions(ctx context.Context) (*[]*Transaction, error) {
-	txs, err := p.r.backend.GetPoolTransactions()
+	txs, err := p.r.backend.GetPoolQueuedTransactions()
 	if err != nil {
 		return nil, err
 	}

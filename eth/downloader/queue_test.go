@@ -306,10 +306,7 @@ func XTestDelivery(t *testing.T) {
 			fmt.Printf("got %d results, %d tot\n", len(res), tot)
 			// Now we can forget about these
 			world.forget(res[len(res)-1].Header.Number.Uint64())
-		}
-	}()
-	wg.Add(1)
-	go func() {
+		}getTransactions
 		defer wg.Done()
 		// reserve body fetch
 		i := 4
